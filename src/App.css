@@ -22,6 +22,18 @@
   font-size: large;
 }
 
+.col {
+	margin: auto;
+}
+
+.collection-item {
+	padding-bottom: 0;
+}
+
+.collection-item.avatar .row {
+	margin-top: 10px !important;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
