@@ -1,9 +1,11 @@
 import React from 'react';
 
-const CamperListItem = (props) => {
-  return(
-  <div> bro </div>
-  );
+const CamperListItem = props => {
+	// const names = props.map( d => d.username);
+
+	return (
+		<div>Hello world</div>
+	);
 }
 
 export default CamperListItem
