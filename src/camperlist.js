@@ -4,8 +4,7 @@ import CamperListItem from './camper_list_item.js'
 
 //This is where the data is being pulled from VVVV
 const CamperList = ({campers}) => {
-console.log("winner", campers);
-console.log('these are the datas', campers);
+
 
 const Items = campers.map((camper, index) => {
   return <CamperListItem keys={index} camper={camper} number={index + 1}/>
