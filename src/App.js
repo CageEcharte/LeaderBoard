@@ -7,62 +7,50 @@ import CamperList from './camperlist'
 
 
 
-constructor(props) {
- 		super(props);
- 		this.state = {
- 		recentCampers: [],
- 			allTimeCampers: [],
- 			currentView: 'recentCampers'
- 	 }
- 	}
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      recentCampers: [],
+      allTimeCampers: [],
+      currentView: 'recentCampers'
+    }
 
 
    }
 
-   componentWillMount() {
-  	let current = this;
-  		axios.all([this.fetchRecent(), this.fetchAllTime()])
-  			.then(axios.spread(function (recentCampers, allTimeCampers) {
-  				current.setState({ recentCampers, allTimeCampers });
-  			}));
-  	}
+  componentWillMount() {
+     let current = this;
+  axios.all([this.fetchRecent(), this.fetchAllTime()]).then(axios.spread(function(recentCampers, allTimeCampers){
+    current.setState({ recentCampers: recentCampers.data, allTimeCampers: allTimeCampers.data});
+  }));
+}
 
 
-    fetchRecent() {
-  	  console.log('\n');
-  		console.log('fetch recent');
-  		return axios.get('https://fcctop100.herokuapp.com/api/fccusers/top/recent')
-  	}
+   fetchRecent(){
+     return axios.get('https://fcctop100.herokuapp.com/api/fccusers/top/recent')
+   }
 
-    fetchAllTime() {
-  		console.log('\n');
-  		console.log('fetch all-time');
-  		return axios.get('https://fcctop100.herokuapp.com/api/fccusers/top/alltime')
-  	}
+   fetchAllTime(){
+     return axios.get('https://fcctop100.herokuapp.com/api/fccusers/top/alltime')
+   }
 
-    changeView(currentView) {
-  		this.setState({ currentView })
-  	}
+   changeView(currentView){
+     this.setState({currentView})
+   }
 
-	render() {
-   		return (
-   			<div>
-   				<h2> viewing top {this.state.currentView} </h2>
-   			<div className="row">
-   					<div className='col s2 left-align'>
-   						<button onClick={() => this.changeView('recentCampers')} className="btn teal accent-4"> Recent </button>
-   					</div>
-   				<div className='col s2 left-align'>
-   						<button onClick={() => this.changeView('allTimeCampers')} className="btn teal accent-4"> All Time </button>
-   				</div>
-   				</div>
-   				<div className="row">
-   					<div className="col s12 m12 l12 center-align">
-   					<CamperList campers={this.state[this.state.currentView]} />
-   					</div>
-   			</div>
-   			</div>
-   		);
+   render() {
+     if(!this.state.recentCampers.length && this.state.allTimeCampers.length){
+       return <div> loading... </div>
+     }
+     return (
+<div>
+<h2 className="front"> Viewing top 100 campers with the highest points: {this.state.currentView} </h2>
+ <button onClick={()=> this.changeView('recentCampers')} className="funny" > Recent Points</button>
+ <button onClick={() => this.changeView('allTimeCampers')} className="funny"> All Time Points</button>
+<CamperList campers={this.state[this.state.currentView]}/>
 
-   	}
-    }
+ </div>
+     );
+   }
+ }
